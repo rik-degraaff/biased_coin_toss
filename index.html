@@ -99,6 +99,11 @@
       let bias = (1 - inverseBias).toFixed(2);
       document.getElementById("bias").value = bias;
     }
+    
+    // Get the value of the "color" query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const color = urlParams.get('color');
+    document.body.style.backgroundColor = color;
 
   </script>
 </body>
