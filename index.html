@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Biased Coin Flip</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <style>
+    body {
+      background-color: white;
+      font-size: 20px;
+    }
+
+    .brand-logo {
+      margin-left: 20px;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-wrapper">
+      <a href="#" class="brand-logo">Biased Coin Flip</a>
+    </div>
+  </nav>
+  <div class="row">
+    <form class="col s12">
+      <div class="row">
+        <div class="input-field col s6">
+          <input id="option1" type="text" class="validate">
+          <label for="option1">Option 1</label>
+        </div>
+        <div class="input-field col s6">
+          <input id="option2" type="text" class="validate">
+          <label for="option2">Option 2</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s6">
+          <input id="bias" type="number" class="validate" min="0" max="1" step="0.01" value="0.5" oninput="updateInverseBias()">
+          <label for="bias">Odds (0 to 1)</label>
+        </div>
+        <div class="input-field col s6">
+          <input id="inverse-bias" type="number" class="validate" min="0" max="1" step="0.01" value="0.5" oninput="updateBias()">
+          <label for="inverse-bias">Odds (0 to 1)</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s6">
+          <button class="btn waves-effect waves-light" type="button" onclick="flipCoin()">Flip Coin</button>
+        </div>
+        <div class="col s6">
+          <button class="btn waves-effect waves-light" type="button" onclick="clearResults()">Clear</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="row">
+    <div class="col s12">
+      <div class="card-panel teal">
+        <span class="white-text" id="results"></span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const option1Element = document.getElementById("option1");
+    const option2Element = document.getElementById("option2");
+    const biasElement = document.getElementById("bias");
+    const resultsElement = document.getElementById("results");
+
+    function flipCoin() {
+      const option1 = option1Element.value.trim();
+      const option2 = option2Element.value.trim();
+      const bias = parseFloat(biasElement.value);
+
+      if (!option1 || !option2 || isNaN(bias) || bias < 0 || bias > 1) {
+        alert("Please provide valid inputs.");
+        return;
+      }
+
+      const result = Math.random() < bias ? option1 : option2;
+      resultsElement.innerHTML += `<p>Result: ${result}</p>`;
+    }
+
+    // To clear the results, you can add the following function:
+    function clearResults() {
+      resultsElement.innerHTML = "";
+    }
+
+    function updateInverseBias() {
+      let bias = document.getElementById("bias").value;
+      let inverseBias = (1 - bias).toFixed(2);
+      document.getElementById("inverse-bias").value = inverseBias;
+    }
+
+    function updateBias() {
+      let inverseBias = document.getElementById("inverse-bias").value;
+      let bias = (1 - inverseBias).toFixed(2);
+      document.getElementById("bias").value = bias;
+    }
+
+  </script>
+</body>
+</html>
